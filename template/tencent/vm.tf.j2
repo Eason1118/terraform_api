@@ -1,0 +1,39 @@
+
+resource "tencentcloud_instance" "tencent_vm" {
+        # 实例名称
+        instance_name = "{{ data.instance_name }}"
+        # 可用区
+        availability_zone = "{{ data.availability_zone }}"
+        # 镜像id
+        image_id = "{{ data.image_id }}"
+        # 实例类型
+        instance_type = "{{ data.instance_type }}"
+        # 磁盘类型
+        system_disk_type = "{{ data.system_disk_type }}"
+        # 磁盘大小
+        system_disk_size = {{ data.system_disk_size }}
+        {% if data.security_groups %}
+        # 安全组
+        security_groups = {{ data.security_groups }}
+        {% endif %}
+
+        # VPC ID 参考：腾讯云-上海私有网络
+        vpc_id = "{{ data.vpc_id }}"
+        # 子网ID
+        subnet_id = "{{ data.subnet_id }}"
+        # 自动分配外网IP
+        allocate_public_ip = true
+        # 网络计费类型
+        internet_charge_type = "{{ data.internet_charge_type }}"
+        # 最大带宽输出
+        internet_max_bandwidth_out = {{ data.internet_max_bandwidth_out }}
+        # 数量
+        count = {{ data.count }}
+        {% if data.tags %}
+        tags = {
+        {% for key, val in data.tags.items() %}
+            {{ key }}: "{{ val }}",
+        {% endfor %}
+        }
+        {% endif %}
+    }
